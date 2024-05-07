@@ -52,6 +52,7 @@ import {
   $skill,
   $slots,
   $stat,
+  AprilingBandHelmet,
   AsdonMartin,
   AugustScepter,
   AutumnAton,
@@ -630,7 +631,7 @@ export const MiscQuest: Quest = {
       priority: () => Priorities.Free,
       ready: () => myMeat() >= meatBuffer + 140,
       completed: () =>
-        (!have($item`Asdon Martin keyfob`) && !AsdonMartin.installed()) ||
+        (!have($item`Asdon Martin keyfob (on ring)`) && !AsdonMartin.installed()) ||
         !knollAvailable() ||
         (have($item`bugbear beanie`) && have($item`bugbear bungguard`)) ||
         myAscensions() >= 10,
@@ -947,7 +948,7 @@ export const MiscQuest: Quest = {
           result.while_("hasskill 7448 && !pastround 25", Macro.skill($skill`Douse Foe`));
           return result;
         }, $monster`shadow slab`)
-        .kill(),
+        .killHard(),
       outfit: () => {
         const result: OutfitSpec = {
           modifier: "item",
@@ -1297,6 +1298,16 @@ export const MiscQuest: Quest = {
       acquire: [{ item: $item`distilled resin` }],
       do: () => use($item`distilled resin`),
       limit: { tries: 5, unready: true },
+      freeaction: true,
+    },
+    {
+      name: "Acquire Tuba",
+      priority: () => Priorities.Free,
+      ready: () =>
+        !args.minor.savetuba && AprilingBandHelmet.canJoinSection(),
+      completed: () => have($item`Apriling band tuba`),
+      do: () => AprilingBandHelmet.joinSection($item`Apriling band tuba`),
+      limit: { tries: 1 },
       freeaction: true,
     },
   ],

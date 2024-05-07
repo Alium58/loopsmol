@@ -7,7 +7,6 @@ import {
   myBasestat,
   myHp,
   myMaxhp,
-  myMp,
   myTurncount,
   restoreHp,
   sell,
@@ -208,7 +207,13 @@ const Junkyard: Task[] = [
     },
     completed: () => have($item`molybdenum hammer`) || get("sidequestJunkyardCompleted") !== "none",
     acquire: [{ item: $item`seal tooth` }],
-    outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
+    outfit: {
+      equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+      familiar: have($familiar`Reagnimated Gnome`) ? $familiar`Reagnimated Gnome`
+        : have($familiar`Cookbookbat`) ? $familiar`Cookbookbat`
+          : have($familiar`Nosy Nose`) ? $familiar`Nosy Nose`
+            : undefined
+    },
     do: $location`Next to that Barrel with Something Burning in it`,
     orbtargets: () => $monsters`batwinged gremlin, batwinged gremlin (tool)`,
     combat: new CombatStrategy()
@@ -226,6 +231,7 @@ const Junkyard: Task[] = [
       .banish($monster`A.M.C. gremlin`)
       .kill($monster`batwinged gremlin (tool)`)
       .banish($monsters`batwinged gremlin, vegetable gremlin`),
+    nofightingfamiliars: true,
     limit: { soft: 15 },
   },
   {
@@ -238,7 +244,13 @@ const Junkyard: Task[] = [
     completed: () =>
       have($item`molybdenum crescent wrench`) || get("sidequestJunkyardCompleted") !== "none",
     acquire: [{ item: $item`seal tooth` }],
-    outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
+    outfit: {
+      equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+      familiar: have($familiar`Reagnimated Gnome`) ? $familiar`Reagnimated Gnome`
+        : have($familiar`Cookbookbat`) ? $familiar`Cookbookbat`
+          : have($familiar`Nosy Nose`) ? $familiar`Nosy Nose`
+            : undefined
+    },
     do: $location`Over Where the Old Tires Are`,
     orbtargets: () => $monsters`erudite gremlin, erudite gremlin (tool)`,
     combat: new CombatStrategy()
@@ -256,6 +268,7 @@ const Junkyard: Task[] = [
       .banish($monster`A.M.C. gremlin`)
       .kill($monster`erudite gremlin (tool)`)
       .banish($monsters`erudite gremlin, spider gremlin`),
+    nofightingfamiliars: true,
     limit: { soft: 15 },
   },
   {
@@ -267,7 +280,13 @@ const Junkyard: Task[] = [
       customRestoreMp(50);
     },
     completed: () => have($item`molybdenum pliers`) || get("sidequestJunkyardCompleted") !== "none",
-    outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
+    outfit: {
+      equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+      familiar: have($familiar`Reagnimated Gnome`) ? $familiar`Reagnimated Gnome`
+        : have($familiar`Cookbookbat`) ? $familiar`Cookbookbat`
+          : have($familiar`Nosy Nose`) ? $familiar`Nosy Nose`
+            : undefined
+    },
     do: $location`Near an Abandoned Refrigerator`,
     orbtargets: () => $monsters`spider gremlin, spider gremlin (tool)`,
     combat: new CombatStrategy()
@@ -285,6 +304,7 @@ const Junkyard: Task[] = [
       .banish($monster`A.M.C. gremlin`)
       .kill($monster`spider gremlin (tool)`)
       .banish($monsters`batwinged gremlin, spider gremlin`),
+    nofightingfamiliars: true,
     limit: { soft: 15 },
   },
   {
@@ -297,7 +317,13 @@ const Junkyard: Task[] = [
     completed: () =>
       have($item`molybdenum screwdriver`) || get("sidequestJunkyardCompleted") !== "none",
     acquire: [{ item: $item`seal tooth` }],
-    outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
+    outfit: {
+      equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+      familiar: have($familiar`Reagnimated Gnome`) ? $familiar`Reagnimated Gnome`
+        : have($familiar`Cookbookbat`) ? $familiar`Cookbookbat`
+          : have($familiar`Nosy Nose`) ? $familiar`Nosy Nose`
+            : undefined
+    },
     do: $location`Out by that Rusted-Out Car`,
     orbtargets: () => $monsters`vegetable gremlin, vegetable gremlin (tool)`,
     combat: new CombatStrategy()
@@ -315,13 +341,20 @@ const Junkyard: Task[] = [
       .banish($monster`A.M.C. gremlin`)
       .kill($monster`vegetable gremlin (tool)`)
       .banish($monsters`erudite gremlin, vegetable gremlin`),
+    nofightingfamiliars: true,
     limit: { soft: 15 },
   },
   {
     name: "Junkyard End",
     after: ["Junkyard Hammer", "Junkyard Wrench", "Junkyard Pliers", "Junkyard Screwdriver"],
     completed: () => get("sidequestJunkyardCompleted") !== "none",
-    outfit: { equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin` },
+    outfit: {
+      equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
+      familiar: have($familiar`Reagnimated Gnome`) ? $familiar`Reagnimated Gnome`
+        : have($familiar`Cookbookbat`) ? $familiar`Cookbookbat`
+          : have($familiar`Nosy Nose`) ? $familiar`Nosy Nose`
+            : undefined
+    },
     do: (): void => {
       visitUrl("bigisland.php?action=junkman&pwd");
     },
@@ -357,8 +390,8 @@ const Orchard: Task[] = [
       .macro(() =>
         Macro.externalIf(
           have($skill`Emotionally Chipped`) &&
-            get("_feelEnvyUsed") < 3 &&
-            have($effect`Everything Looks Yellow`),
+          get("_feelEnvyUsed") < 3 &&
+          have($effect`Everything Looks Yellow`),
           Macro.trySkill($skill`Feel Envy`),
           Macro.trySkill($skill`Fire Extinguisher: Polar Vortex`)
         )
@@ -393,8 +426,8 @@ const Orchard: Task[] = [
       .macro(() =>
         Macro.externalIf(
           have($skill`Emotionally Chipped`) &&
-            get("_feelEnvyUsed") < 3 &&
-            have($effect`Everything Looks Yellow`),
+          get("_feelEnvyUsed") < 3 &&
+          have($effect`Everything Looks Yellow`),
           Macro.trySkill($skill`Feel Envy`),
           Macro.trySkill($skill`Fire Extinguisher: Polar Vortex`)
         )
@@ -429,8 +462,8 @@ const Orchard: Task[] = [
       .macro(() =>
         Macro.externalIf(
           have($skill`Emotionally Chipped`) &&
-            get("_feelEnvyUsed") < 3 &&
-            have($effect`Everything Looks Yellow`),
+          get("_feelEnvyUsed") < 3 &&
+          have($effect`Everything Looks Yellow`),
           Macro.trySkill($skill`Feel Envy`),
           Macro.trySkill($skill`Fire Extinguisher: Polar Vortex`)
         )
@@ -516,7 +549,7 @@ const Nuns: Task[] = [
           .trySkill($skill`Bowl Straight Up`)
           .trySkill($skill`Sing Along`)
       )
-      .kill(),
+      .killHard(),
     limit: { soft: 30 },
     boss: true,
   },
@@ -689,32 +722,16 @@ export const WarQuest: Quest = {
         const result = <OutfitSpec>{
           equip: $items`beer helmet, distressed denim pants, bejeweled pledge pin`,
         };
-        if (oopsAllGropsReady()) {
-          result.familiar = $familiar`Patriotic Eagle`;
-        } else if (args.minor.jellies) {
+        if (args.minor.jellies) {
           result.familiar = $familiar`Space Jellyfish`;
         }
         return result;
-      },
-      prepare: () => {
-        if (oopsAllGropsReady() && myMp() < 30) customRestoreMp(30 - myMp());
       },
       do: $location`The Battlefield (Frat Uniform)`,
       post: dimesForGarters,
       combat: new CombatStrategy()
         .kill()
-        .macro(Macro.trySkill($skill`Extract Jelly`))
-        .macro(() => {
-          if (oopsAllGropsReady())
-            return Macro.trySkill($skill`%fn, Release the Patriotic Screech!`).trySkill(
-              $skill`Gallapagosian Mating Call`
-            );
-          return new Macro();
-        }, $monster`Green Ops Soldier`),
-      map_the_monster: () => {
-        if (oopsAllGropsReady()) return $monster`Green Ops Soldier`;
-        return $monster`none`;
-      },
+        .macro(Macro.trySkill($skill`Extract Jelly`)),
       limit: { tries: 30 },
     },
     {
@@ -740,18 +757,6 @@ export const WarQuest: Quest = {
     },
   ],
 };
-
-function oopsAllGropsReady(): boolean {
-  return (
-    get("hippiesDefeated") >= 400 &&
-    have($familiar`Patriotic Eagle`) &&
-    get("screechCombats") === 0 &&
-    !get("banishedPhyla").includes("hippy") &&
-    have($skill`Gallapagosian Mating Call`) &&
-    have($skill`Map the Monsters`) &&
-    get("_monstersMapped") < 3
-  );
-}
 
 export function councilSafe(): boolean {
   // Check if it is safe to visit the council without making the war outfit worse
